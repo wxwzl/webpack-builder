@@ -5,12 +5,12 @@ const outputPath = path.resolve(__dirname, "./dist/");
 let packageObj = require("./package.json");
 module.exports = {
   // devtool: "cheap-module-source-map",
-  entry: { vue: "./lib/index.js", jsp: "./jsp/index.js" },
+  entry: { vue: "./lib/index.js", jsp: "./lib/core/logger.js" },
   output: {
     path: outputPath,
-    filename: `logger.[name].${packageObj.version}.js`,
-    library: "$logger",
-    libraryTarget: "umd",
+    filename: `${packageObj.name}.[name].${packageObj.version}.js`,//输出文件的名字
+    library: "$logger",//暴露到全局对象时挂载的key名
+    libraryTarget: "umd",//输出的模块规范
     umdNamedDefine: true,
   },
   resolve: {
@@ -23,10 +23,6 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: "babel-loader",
-          options: {
-            presets: ["babel-preset-es2015"],
-            plugins: ["transform-runtime"],
-          },
         },
       },
     ],
